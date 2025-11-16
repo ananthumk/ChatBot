@@ -11,12 +11,10 @@ app.use(cors());
 
 const PORT = 4000;
 
-// In-memory store (no DB)
+
 const sessions = {};
 
-/**
- * Load mock data from file
- */
+
 function loadTable() {
   const file = path.join(__dirname, "mockData.json");
   try {
@@ -24,7 +22,7 @@ function loadTable() {
     return JSON.parse(raw);
   } catch (err) {
     console.error("Failed to load mockData.json:", err);
-    // fallback sample
+    
     return {
       answerText: "Fallback sample answer",
       table: {
@@ -36,11 +34,7 @@ function loadTable() {
   }
 }
 
-/**
- * Create new session
- * POST /api/sessions
- * body: { title?, firstQuestion? }
- */
+
 app.post("/api/sessions", (req, res) => {
   const id = uuidv4();
   const { title, firstQuestion } = req.body || {};
@@ -48,7 +42,7 @@ app.post("/api/sessions", (req, res) => {
 
   const messages = [];
 
-  // If firstQuestion is provided, store user's message immediately
+ 
   if (firstQuestion) {
     messages.push({
       id: uuidv4(),
@@ -68,11 +62,7 @@ app.post("/api/sessions", (req, res) => {
   return res.json({ id, title: sessions[id].title });
 });
 
-/**
- * Send message to session (user asks a question)
- * POST /api/sessions/:id/messages
- * body: { question }
- */
+
 app.post("/api/sessions/:id/messages", (req, res) => {
   const sessionId = req.params.id;
   const { question } = req.body || {};
@@ -93,8 +83,8 @@ app.post("/api/sessions/:id/messages", (req, res) => {
     createdAt
   };
 
-  // Load mock answer
-  const mock = loadTable(); // returns { answerText, table, description }
+  
+  const mock = loadTable(); 
 
   const assistantMsg = {
     id: uuidv4(),
@@ -111,10 +101,7 @@ app.post("/api/sessions/:id/messages", (req, res) => {
   return res.json({ assistant: assistantMsg });
 });
 
-/**
- * Get list of sessions
- * GET /api/sessions
- */
+
 app.get("/api/sessions", (req, res) => {
   const list = Object.values(sessions).map((s) => ({
     id: s.id,
@@ -127,21 +114,14 @@ app.get("/api/sessions", (req, res) => {
   return res.json({ sessions: list });
 });
 
-/**
- * Get specific session
- * GET /api/sessions/:id
- */
+
 app.get("/api/sessions/:id", (req, res) => {
   const s = sessions[req.params.id];
   if (!s) return res.status(404).json({ error: "Session not found" });
   return res.json({ session: s });
 });
 
-/**
- * Submit feedback for a message
- * POST /api/feedback
- * body: { sessionId, messageId, feedback } // feedback: 'like' | 'dislike' | null
- */
+
 app.post("/api/feedback", (req, res) => {
   const { sessionId, messageId, feedback } = req.body || {};
 
@@ -160,10 +140,7 @@ app.post("/api/feedback", (req, res) => {
   return res.json({ success: true, message: "Feedback saved" });
 });
 
-/**
- * OPTIONAL: delete session
- * DELETE /api/sessions/:id
- */
+
 app.delete("/api/sessions/:id", (req, res) => {
   const id = req.params.id;
   if (!sessions[id]) return res.status(404).json({ error: "Session not found" });
@@ -171,10 +148,6 @@ app.delete("/api/sessions/:id", (req, res) => {
   return res.json({ success: true });
 });
 
-/**
- * Health
- */
-app.get("/api/health", (req, res) => res.json({ ok: true }));
 
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
