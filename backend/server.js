@@ -9,7 +9,7 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-const PORT = process.env.PORT || 4000;
+const PORT = 4000;
 
 // In-memory store (no DB)
 const sessions = {};
