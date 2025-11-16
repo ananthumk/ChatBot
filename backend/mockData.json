@@ -1,0 +1,12 @@
+{
+  "answerText": "Here is a summary and structured data.",
+  "table": {
+    "columns": ["Metric", "Value", "Change"],
+    "rows": [
+      ["Users", "1,234", "+5%"],
+      ["Revenue", "₹45,000", "+2%"],
+      ["Conversion Rate", "3.2%", "-0.1%"]
+    ]
+  },
+  "description": "This table shows key product metrics for the last 7 days."
+}
