@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { FaArrowUp, FaThumbsUp, FaThumbsDown, FaBars } from "react-icons/fa";
+import { RiMessage2Line } from "react-icons/ri";
 import { FiSun, FiMoon } from "react-icons/fi";
 import axios from "axios";
 import { useTheme } from "../context/ThemeContext";
@@ -139,7 +140,7 @@ const Chatbot = ({ sessionId, setSessionId, onSessionCreated, setIsCollapsed }) 
         <div className="max-w-4xl mx-auto flex flex-col gap-6">
           {messages.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full py-20">
-              <div className={`text-6xl mb-4 ${theme === "dark" ? "text-gray-600" : "text-gray-300"}`}>💬</div>
+              <RiMessage2Line className={`text-6xl mb-4 ${theme === "dark" ? "text-gray-600" : "text-gray-300"}`}/>
               <h2 className={`text-2xl font-bold mb-2 ${theme === "dark" ? "text-white" : "text-gray-800"}`}>How can I help you today?</h2>
               <p className={`${theme === "dark" ? "text-gray-400" : "text-gray-600"}`}>Start a conversation by typing a message below</p>
             </div>
