@@ -17,7 +17,7 @@ const Sidebar = ({
 
   const loadSessions = async () => {
     try {
-      const res = await axios.get("http://localhost:4000/api/sessions");
+      const res = await axios.get("https://chatbot-dhj6.onrender.com/api/sessions");
       setSessions(res.data.sessions || []);
     } catch (err) {
       console.log("Fetch Sessions Error:", err.message);
@@ -27,12 +27,12 @@ const Sidebar = ({
 
   useEffect(() => {
     loadSessions();
-    // refresh every 6 seconds (keeps list updated when new sessions created)
+   
     const id = setInterval(loadSessions, 6000);
     return () => clearInterval(id);
   }, []);
 
-  // refresh when parent triggers
+  
   useEffect(() => {
     loadSessions();
   }, [refreshTrigger]);
@@ -99,7 +99,7 @@ const Sidebar = ({
 
         <button
           onClick={handleNewChat}
-          className={`p-2 ${theme === "dark" ? "bg-blue-600 hover:bg-blue-700" : "bg-blue-500 hover:bg-blue-600"} rounded-lg transition-colors`}
+          className={`p-2 ${theme === "dark" ? "bg-gray-300 hover:bg-gray-500" : "bg-blue-500 hover:bg-blue-600"} rounded-lg transition-colors`}
           title="New Chat"
         >
           <FaEdit className="w-5 h-5 text-white" />
@@ -145,7 +145,7 @@ const Sidebar = ({
           <FaUser className="text-base text-white" />
         </div>
         <div className="flex flex-col">
-          <h5 className={`text-sm font-semibold ${theme === "dark" ? "text-white" : "text-gray-800"}`}>User</h5>
+          <h5 className={`text-sm font-semibold ${theme === "dark" ? "text-white" : "text-gray-800"}`}>Akhil</h5>
           <p className={`text-xs ${theme === "dark" ? "text-gray-400" : "text-gray-600"}`}>Free Plan</p>
         </div>
       </div>
