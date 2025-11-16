@@ -99,7 +99,7 @@ const Sidebar = ({
 
         <button
           onClick={handleNewChat}
-          className={`p-2 ${theme === "dark" ? "bg-gray-300 hover:bg-gray-500" : "bg-blue-500 hover:bg-blue-600"} rounded-lg transition-colors`}
+          className={`p-2 ${theme === "dark" ? "bg-gray-300 hover:bg-gray-500" : "bg-gray-400 hover:bg-gray-600"} rounded-lg transition-colors`}
           title="New Chat"
         >
           <FaEdit className="w-5 h-5 text-white" />
