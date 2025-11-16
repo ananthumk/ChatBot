@@ -20,14 +20,14 @@ const Chatbot = ({ sessionId, setSessionId, onSessionCreated, setIsCollapsed }) 
     if (sessionId) {
       loadSession(sessionId);
     } else {
-      setMessages([]); // clear when starting fresh
+      setMessages([]); 
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+   
   }, [sessionId]);
 
   const loadSession = async (id) => {
     try {
-      const res = await axios.get(`http://localhost:4000/api/sessions/${id}`);
+      const res = await axios.get(`https://chatbot-dhj6.onrender.com/api/sessions/${id}`);
       setMessages(res.data.session.messages || []);
     } catch (err) {
       console.log("Load Session Error:", err.message);
@@ -43,7 +43,7 @@ const Chatbot = ({ sessionId, setSessionId, onSessionCreated, setIsCollapsed }) 
           : firstQuestion
         : undefined;
 
-      const res = await axios.post("http://localhost:4000/api/sessions", {
+      const res = await axios.post("https://chatbot-dhj6.onrender.com/api/sessions", {
         title,
         firstQuestion: firstQuestion ? firstQuestion : undefined
       });
@@ -68,7 +68,7 @@ const Chatbot = ({ sessionId, setSessionId, onSessionCreated, setIsCollapsed }) 
       let currentSessionId = sessionId;
 
       if (!currentSessionId) {
-        // create session with firstQuestion so backend stores the user message too
+        
         currentSessionId = await createSession(currentQuestion);
         if (!currentSessionId) {
           setLoading(false);
@@ -76,30 +76,30 @@ const Chatbot = ({ sessionId, setSessionId, onSessionCreated, setIsCollapsed }) 
         }
       }
 
-      // Optimistically add user message
+      
       const userMsg = { id: `u-${Date.now()}`, role: "user", text: currentQuestion, createdAt: new Date().toISOString() };
       setMessages((prev) => [...prev, userMsg]);
 
-      // Ask backend for assistant reply
-      const res = await axios.post(`http://localhost:4000/api/sessions/${currentSessionId}/messages`, {
+      
+      const res = await axios.post(`https://chatbot-dhj6.onrender.com/api/sessions/${currentSessionId}/messages`, {
         question: currentQuestion
       });
 
       const assistant = res.data.assistant;
-      // assistant is expected to have: id, role:'assistant', answerText, table, description, createdAt, feedback
+      
       setMessages((prev) => [...prev, assistant]);
     } catch (err) {
       console.log("Send Message Error:", err.message);
     } finally {
       setLoading(false);
-      // scroll to bottom
+      
       messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
     }
   };
 
   const handleFeedback = async (messageId, feedback) => {
     try {
-      await axios.post("http://localhost:4000/api/feedback", {
+      await axios.post("https://chatbot-dhj6.onrender.com/api/feedback", {
         sessionId,
         messageId,
         feedback
